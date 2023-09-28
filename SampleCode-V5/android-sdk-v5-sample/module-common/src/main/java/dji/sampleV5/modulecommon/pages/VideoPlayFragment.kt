@@ -19,8 +19,8 @@ import dji.v5.manager.datacenter.MediaDataCenter
 import dji.v5.manager.datacenter.media.MediaFile
 import dji.v5.manager.datacenter.media.VideoPlayState
 import dji.v5.utils.common.LogUtils
-import dji.v5.utils.common.ToastUtils
 import kotlinx.android.synthetic.main.video_play_page.*
+import dji.sampleV5.modulecommon.util.ToastUtils
 
 
 class VideoPlayFragment : DJIFragment(), SurfaceHolder.Callback, View.OnClickListener {
@@ -91,10 +91,6 @@ class VideoPlayFragment : DJIFragment(), SurfaceHolder.Callback, View.OnClickLis
                     playingtime?.setText(videoPlayVM.showTime(currentIntPosition))
                     operate?.visibility = View.GONE
                 }
-                VideoPlayState.PAUSED -> {
-                    operate?.visibility = View.VISIBLE
-                    operate?.setImageResource(R.drawable.video_pause)
-                }
 
                 else -> {
                     operate?.visibility = View.VISIBLE
@@ -118,7 +114,7 @@ class VideoPlayFragment : DJIFragment(), SurfaceHolder.Callback, View.OnClickLis
         enterPlaybackSuccess = false
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {
+    override fun surfaceCreated(holder: SurfaceHolder) {
         if (videoDecoder == null) {
             videoDecoder = createVideoDecoder()
         } else if (videoDecoder?.decoderStatus == DecoderState.PAUSED) {
@@ -127,7 +123,7 @@ class VideoPlayFragment : DJIFragment(), SurfaceHolder.Callback, View.OnClickLis
         videoDecoder?.mediaFile = mediaFile
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         if (videoDecoder == null) {
             videoDecoder = createVideoDecoder()
 
@@ -136,7 +132,7 @@ class VideoPlayFragment : DJIFragment(), SurfaceHolder.Callback, View.OnClickLis
         }
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         videoDecoder?.onPause()
     }
 
@@ -156,7 +152,7 @@ class VideoPlayFragment : DJIFragment(), SurfaceHolder.Callback, View.OnClickLis
     }
 
     private fun createVideoDecoder():IVideoDecoder{
-      return  VideoDecoder(
+        return  VideoDecoder(
             this@VideoPlayFragment.context,
             VideoChannelType.EXTENDED_STREAM_CHANNEL,
             DecoderOutputMode.SURFACE_MODE,

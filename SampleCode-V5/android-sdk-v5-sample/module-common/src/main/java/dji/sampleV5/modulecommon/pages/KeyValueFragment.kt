@@ -42,7 +42,7 @@ import dji.sdk.keyvalue.value.common.BoolMsg
 import dji.sdk.keyvalue.value.common.CameraLensType
 import dji.sdk.keyvalue.value.common.ComponentIndexType
 import dji.v5.manager.KeyManager
-import dji.v5.utils.common.ToastUtils.showToast
+import dji.sampleV5.modulecommon.util.ToastUtils.showToast
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 
@@ -179,7 +179,7 @@ class KeyValueFragment : DJIFragment(), View.OnClickListener {
 
     private fun initViewAndListener(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
-        tv_operate_title.setOnClickListener {
+        tv_operate_title_lyt.setOnClickListener {
             channelTypeFilterOperate()
         }
         ll_filter_container.setOnClickListener {
@@ -580,7 +580,7 @@ class KeyValueFragment : DJIFragment(), View.OnClickListener {
 
     override fun onClick(view: View) {
 
-        if (Util.isBlank(tv_name.text.toString()) || currentKeyItem == null) {
+        if (Util.isBlank(tv_name.text?.toString()) || currentKeyItem == null) {
             showToast("please select key first")
             return
         }
@@ -614,7 +614,10 @@ class KeyValueFragment : DJIFragment(), View.OnClickListener {
                         CapabilityManager.getInstance().componentIndex
                     )
                 )
-                CapabilityKeyChecker.check( msdkInfoVm.msdkInfo.value?.productType?.name!! , cameraType!!.name )
+                    cameraType?.name?.let {
+                        CapabilityKeyChecker.check( msdkInfoVm.msdkInfo.value?.productType?.name!! ,
+                            it)
+                    }
                // CapabilityKeyChecker.generateAllEnumList(msdkInfoVm.msdkInfo.value?.productType?.name!! , cameraType!!.name )
 
             }

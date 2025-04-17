@@ -53,7 +53,6 @@ public class ObservableInMemoryKeyedStore implements ObservableKeyedStore {
         store = FlatStore.getInstance();
         //Initialize any internal default UXKey classes here
         UXKeys.addNewKeyClass(GlobalPreferenceKeys.class);
-        UXKeys.addNewKeyClass(CameraKeys.class);
         UXKeys.addNewKeyClass(MessagingKeys.class);
     }
 
